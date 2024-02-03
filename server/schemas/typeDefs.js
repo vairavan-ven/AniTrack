@@ -1,38 +1,38 @@
-const typeDefs = `
-type User {
-    _id: ID!
-    username: String!
-    email: String!
-    password: String! # Hashed password
-    watchlist: [Anime]!
-  }
+const { gql } = require('apollo-server-express');
 
-  type Anime {
-    _id: ID!
-    title: String!
-    genre: String!
-    description: String!
-  }
-
-  type Query {
-    # User-related queries
-    me: User
-    getUserById(userId: ID!): User
-
-    # Anime-related queries
-    getAllAnime: [Anime]
-    getAnimeById(animeId: ID!): Anime
-  }
-
-  type Mutation {
-    # User-related mutations
-    signup(username: String!, email: String!, password: String!): User
-    login(email: String!, password: String!): User
-
-    # Watchlist-related mutations
-    addToWatchlist(animeId: ID!): User
-    removeFromWatchlist(animeId: ID!): User
-    markAsWatched(animeId: ID!): User
-  }
+const typeDefs = gql`
+    type User {
+        _id: ID!
+        username: String!
+        email: String!
+        animeCount: Int
+        savedAnime: [Anime]
+    }
+    type Auth {
+        token: ID!
+        user: User
+    }
+    type Anime {
+        animeId: ID!
+        title: String
+        genre: String
+        description: String
+    }
+    input InputAnime {
+        animeId: String
+        title: String
+        genre: String
+        description: String
+    }
+    type Query {
+        me: User
+    }
+    type Mutation {
+        login(email: String!, password: String!): Auth
+        addUser(username: String!, email: String!, password: String!): Auth
+        saveAnime(newAnime: InputAnime!): User
+        removeAnime(animeId: ID!): User
+    }
 `;
+
 module.exports = typeDefs;
