@@ -50,22 +50,24 @@ export const deleteAnime = (animeId, token) => {
   });
 };
 
-  export const searchAnimedb = async () => {
-    const url = 'https://anime-db.p.rapidapi.com/anime?page=1&size=10';
-    const apiKey = import.meta.env.VITE_API_KEY
+export const searchAnimedb = async (query) => {
+    const url = `https://anime-db.p.rapidapi.com/anime?q=${query}&page=1&size=10`;
+    const apiKey = import.meta.env.VITE_API_KEY;
     const options = {
         method: 'GET',
         headers: {
             'X-RapidAPI-Key': apiKey,
             'X-RapidAPI-Host': 'anime-db.p.rapidapi.com'
         }
-
     };
     try {
         const response = await fetch(url, options);
-        const result = await response.text();
-        console.log(result);
+        const data = await response.json();
+        return data;
     } catch (error) {
         console.error(error);
+        throw new Error('Failed to fetch anime data');
     }
 };
+
+

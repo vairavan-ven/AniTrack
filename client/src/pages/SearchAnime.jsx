@@ -16,9 +16,8 @@ const SearchAnime = () => {
 
   const handleSearch = async () => {
     try {
-      const response = await searchAnime(searchQuery);
-      const data = await response.json();
-      setAnimeData(data);
+      const data = await searchAnimedb(searchQuery);
+      setAnimeData(data); // Update animeData state with fetched data
     } catch (error) {
       console.error(error);
     }
