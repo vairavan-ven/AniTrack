@@ -1,49 +1,41 @@
-import { useState, useEffect } from 'react';
-import Auth from '../utils/auth';
-import { saveAnime, searchAnimedb } from '../utils/API';
+import React, { useState } from 'react';
+import seedData from '../utils/seedData';
 
 const SearchAnime = () => {
-  const [animeData, setAnimeData] = useState([]);
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchInput, setSearchInput] = useState('');
+  const [searchResults, setSearchResults] = useState([]);
+  const [savedAnime, setSavedAnime] = useState([]);
 
-  useEffect(() => {
-    searchAnimedb();
-  }, []);
-
-  const handleInputChange = (event) => {
-    setSearchQuery(event.target.value);
+  const handleSearch = () => {
+    const results = seedData.filter(anime => anime.title.toLowerCase().includes(searchInput.toLowerCase()));
+    setSearchResults(results);
   };
 
-  const handleSearch = async () => {
-    try {
-      const data = await searchAnimedb(searchQuery);
-      setAnimeData(data); // Update animeData state with fetched data
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const handleSaveAnime = async (anime) => {
-    try {
-      const token = Auth.getToken();
-      await saveAnime(anime, token);
-      console.log('Anime saved successfully!');
-    } catch (error) {
-      console.error(error);
-    }
+  const handleSaveAnime = (anime) => {
+    setSavedAnime([...savedAnime, anime]);
   };
 
   return (
     <div>
-      <h1>Search Anime</h1>
-      <input type="text" value={searchQuery} onChange={handleInputChange} />
+      <input type="text" value={searchInput} onChange={(e) => setSearchInput(e.target.value)} />
       <button onClick={handleSearch}>Search</button>
+
       <div>
-        {animeData.map((anime) => (
+        {searchResults.map(anime => (
           <div key={anime.id}>
             <h2>{anime.title}</h2>
             <p>{anime.description}</p>
-            <button onClick={() => handleSaveAnime(anime)}>Save</button>
+            <button onClick={() => handleSaveAnime(anime)}>Save Anime</button>
+          </div>
+        ))}
+      </div>
+
+      <div>
+        <h3>Saved Anime:</h3>
+        {savedAnime.map(anime => (
+          <div key={anime.id}>
+            <h2>{anime.title}</h2>
+            <p>{anime.description}</p>
           </div>
         ))}
       </div>

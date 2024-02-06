@@ -50,8 +50,8 @@ export const deleteAnime = (animeId, token) => {
   });
 };
 
-export const searchAnimedb = async (query) => {
-    const url = `https://anime-db.p.rapidapi.com/anime?q=${query}&page=1&size=10`;
+export const searchAnimedb = async () => {
+    const url = 'https://anime-db.p.rapidapi.com/anime?page=1&size=10';
     const apiKey = import.meta.env.VITE_API_KEY;
     const options = {
         method: 'GET',
