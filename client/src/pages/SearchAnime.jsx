@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import Auth from '../utils/auth';
-import { saveAnime, searchAnime } from '../utils/API';
+import { saveAnime, searchAnimedb } from '../utils/API';
 
 const SearchAnime = () => {
   const [animeData, setAnimeData] = useState([]);
