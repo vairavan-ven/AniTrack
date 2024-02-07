@@ -1,11 +1,25 @@
 import React, { useState } from 'react';
 import { Container, Col, Form, Button, Card, Row } from 'react-bootstrap';
 import seedData from '../utils/seedData';
+import { useQuery, useMutation } from '@apollo/client';
+import { GET_ME } from '../utils/queries';
+import { SAVE_ANIME } from '../utils/mutations';
 
 const SearchAnime = () => {
   const [searchInput, setSearchInput] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const [savedAnime, setSavedAnime] = useState([]);
+
+  // Query to get the user's data
+  const { data } = useQuery(GET_ME);
+  const userData = data ? data.me : null;
+
+  // Mutation to save anime to user's collection
+  const [saveAnime] = useMutation(SAVE_ANIME, {
+    update(cache, { data: { saveAnime } }) {
+      setSavedAnime([...savedAnime, saveAnime]);
+    }
+  });
 
   const handleSearch = () => {
     const results = seedData.filter(anime =>
@@ -13,9 +27,14 @@ const SearchAnime = () => {
     );
     setSearchResults(results);
   };
+  
 
-  const handleSaveAnime = (anime) => {
-    setSavedAnime([...savedAnime, anime]);
+  const handleSaveAnime = async (anime) => {
+    try {
+      await saveAnime({ variables: { newAnime: anime } });
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
@@ -77,3 +96,7 @@ const SearchAnime = () => {
 };
 
 export default SearchAnime;
+
+
+
+

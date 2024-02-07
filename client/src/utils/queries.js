@@ -17,20 +17,16 @@ export const GET_ME = gql`
     }
   }
 `;
-
+// Query to get the saved anime data
 export const GET_ANIME = gql`
   {
-    savedAnime {
-      _id
-      dataId
-      genres
-      image
-      link
-      ranking
-      title
-      episodes
-      status
-      synopsis
+    me {
+      savedAnime {
+        animeId
+        title
+        genre
+        description
+      }
     }
   }
 `;
