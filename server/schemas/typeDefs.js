@@ -13,15 +13,15 @@ const typeDefs = gql`
         user: User
     }
     type Anime {
-        animeId: ID!
+        id: ID!
         title: String
-        genre: String
+        genres: [String]
         description: String
     }
     input InputAnime {
-        animeId: String
+        id: ID!
         title: String
-        genre: String
+        genres: [String]
         description: String
     }
     type Query {
