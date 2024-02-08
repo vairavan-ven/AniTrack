@@ -30,12 +30,16 @@ const SearchAnime = () => {
   const handleSaveAnime = (anime) => {
     // Check if the anime is already saved
     if (!savedAnime.some(saved => saved.id === anime.id)) {
+      // Add animeId property to the anime object
+      anime.animeId = anime.id;
+      // Save anime to local storage
       const updatedAnime = [...savedAnime, anime];
       setSavedAnime(updatedAnime);
       // Update local storage
       saveAnimeToLocalStorage(updatedAnime);
     }
-  };
+};
+
 
   return (
     <>
