@@ -1,33 +1,22 @@
 import { useState, useEffect } from 'react';
-import Auth from '../utils/auth';
-import { GET_ME } from '../utils/queries';
-import { REMOVE_ANIME } from '../utils/mutations';
-import { useQuery, useMutation } from '@apollo/client';
 
 const SavedAnime = () => {
   const [savedAnime, setSavedAnime] = useState([]);
 
-  // Query to fetch user's saved anime data
-  const { loading, data } = useQuery(GET_ME);
-
-  // Mutation to remove anime from user's collection
-  const [removeAnime] = useMutation(REMOVE_ANIME);
-
   useEffect(() => {
-    if (!loading && data) {
-      setSavedAnime(data.me.savedAnime);
+    // Retrieve saved anime from local storage when component mounts
+    const storedAnime = localStorage.getItem('savedAnime');
+    if (storedAnime) {
+      setSavedAnime(JSON.parse(storedAnime));
     }
-  }, [loading, data]);
+  }, []);
 
-  const handleDeleteAnime = async (animeId) => {
-    try {
-      const token = Auth.getToken();
-      await removeAnime({ variables: { animeId }, context: { headers: { authorization: `Bearer ${token}` } } });
-      setSavedAnime(savedAnime.filter((anime) => anime.animeId !== animeId));
-      console.log('Anime deleted successfully!');
-    } catch (error) {
-      console.error(error);
-    }
+  const handleDeleteAnime = (animeId) => {
+    // Remove anime from savedAnime state and update local storage
+    const updatedAnime = savedAnime.filter((anime) => anime.animeId !== animeId);
+    setSavedAnime(updatedAnime);
+    localStorage.setItem('savedAnime', JSON.stringify(updatedAnime));
+    console.log('Anime deleted successfully!');
   };
 
   return (

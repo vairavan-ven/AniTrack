@@ -1,25 +1,24 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Container, Col, Form, Button, Card, Row } from 'react-bootstrap';
 import seedData from '../utils/seedData';
-import { useQuery, useMutation } from '@apollo/client';
-import { GET_ME } from '../utils/queries';
-import { SAVE_ANIME } from '../utils/mutations';
 
 const SearchAnime = () => {
   const [searchInput, setSearchInput] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const [savedAnime, setSavedAnime] = useState([]);
 
-  // Query to get the user's data
-  const { data } = useQuery(GET_ME);
-  const userData = data ? data.me : null;
-
-  // Mutation to save anime to user's collection
-  const [saveAnime] = useMutation(SAVE_ANIME, {
-    update(cache, { data: { saveAnime } }) {
-      setSavedAnime([...savedAnime, saveAnime]);
+  useEffect(() => {
+    // Retrieve saved anime from local storage when component mounts
+    const storedAnime = localStorage.getItem('savedAnime');
+    if (storedAnime) {
+      setSavedAnime(JSON.parse(storedAnime));
     }
-  });
+  }, []);
+
+  const saveAnimeToLocalStorage = (anime) => {
+    // Save anime to local storage
+    localStorage.setItem('savedAnime', JSON.stringify(anime));
+  };
 
   const handleSearch = () => {
     const results = seedData.filter(anime =>
@@ -27,13 +26,14 @@ const SearchAnime = () => {
     );
     setSearchResults(results);
   };
-  
 
-  const handleSaveAnime = async (anime) => {
-    try {
-      await saveAnime({ variables: { newAnime: anime } });
-    } catch (error) {
-      console.error(error);
+  const handleSaveAnime = (anime) => {
+    // Check if the anime is already saved
+    if (!savedAnime.some(saved => saved.id === anime.id)) {
+      const updatedAnime = [...savedAnime, anime];
+      setSavedAnime(updatedAnime);
+      // Update local storage
+      saveAnimeToLocalStorage(updatedAnime);
     }
   };
 
@@ -96,7 +96,3 @@ const SearchAnime = () => {
 };
 
 export default SearchAnime;
-
-
-
-
