@@ -8,10 +8,16 @@ const SearchAnime = () => {
   const [savedAnime, setSavedAnime] = useState([]);
 
   useEffect(() => {
-    // Retrieve saved anime from local storage when component mounts
+    // Retrieve saved anime and search results from local storage when component mounts
     const storedAnime = localStorage.getItem('savedAnime');
+    const storedSearchResults = localStorage.getItem('searchResults');
+
     if (storedAnime) {
       setSavedAnime(JSON.parse(storedAnime));
+    }
+
+    if (storedSearchResults) {
+      setSearchResults(JSON.parse(storedSearchResults));
     }
   }, []);
 
@@ -25,6 +31,9 @@ const SearchAnime = () => {
       anime.title.toLowerCase().includes(searchInput.toLowerCase())
     );
     setSearchResults(results);
+
+    // Store search results in local storage
+    localStorage.setItem('searchResults', JSON.stringify(results));
   };
 
   const handleSaveAnime = (anime) => {
@@ -38,8 +47,7 @@ const SearchAnime = () => {
       // Update local storage
       saveAnimeToLocalStorage(updatedAnime);
     }
-};
-
+  };
 
   return (
     <>

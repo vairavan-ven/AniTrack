@@ -6,6 +6,7 @@ import App from './App.jsx'
 import SearchAnime from './pages/SearchAnime.jsx'
 import SavedAnime from './pages/SavedAnime.jsx'
 
+
 const router = createBrowserRouter([
   {
     path: '/',
