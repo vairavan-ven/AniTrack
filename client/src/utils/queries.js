@@ -5,7 +5,16 @@ import { gql } from '@apollo/client';
 export const GET_ME = gql`
   {
     me {
+      _id
       username
+      email
+      animeCount
+      savedAnime {
+        animeId
+        title
+        genre
+        description
+      }
     }
   }
 `;
