@@ -2,13 +2,15 @@ import React, { useState } from 'react';
 import { Navigate, useParams } from 'react-router-dom';
 import { useQuery, useMutation } from '@apollo/client';
 import { QUERY_ME } from '../utils/queries';
-import { CHANGE_USERNAME, DELETE_USER } from '../utils/mutations'; // Import the DELETE_USER mutation
+import { CHANGE_USERNAME, DELETE_USER } from '../utils/mutations'; // Import CHANGE_USERNAME and DELETE_USER mutation
 import Auth from '../utils/auth';
 
 const Profile = () => {
   const { username: userParam } = useParams();
   const { loading, data } = useQuery(QUERY_ME);
   const [newUsername, setNewUsername] = useState(''); // State to hold new username input
+  const [successMessage, setSuccessMessage] = useState(''); // State to hold success message
+  const [errorMessage, setErrorMessage] = useState(''); // State to hold error message
   const [changeUsername] = useMutation(CHANGE_USERNAME); // Mutation hook
   const [deleteUser] = useMutation(DELETE_USER); // Mutation hook for deleting user
 
@@ -21,9 +23,13 @@ const Profile = () => {
       await changeUsername({
         variables: { newUsername },
       });
-      // Optionally handle success, such as showing a success message or updating local state
+      // Optionally handle success
+      setSuccessMessage('Username changed successfully!');
+      setErrorMessage('');
     } catch (error) {
       // Handle error
+      setErrorMessage('Failed to change username. Please try again.');
+      setSuccessMessage('');
       console.error(error);
     }
   };
@@ -33,9 +39,13 @@ const Profile = () => {
     try {
       // Call the mutation function to delete the user
       await deleteUser();
-      // Optionally handle success, such as redirecting to another page
+      // Optionally handle success
+      setSuccessMessage('Account deleted successfully!');
+      setErrorMessage('');
     } catch (error) {
       // Handle error
+      setErrorMessage('Failed to delete account. Please try again.');
+      setSuccessMessage('');
       console.error(error);
     }
   };
@@ -63,6 +73,10 @@ const Profile = () => {
     <div>
       <h2>Profile</h2>
       <p>Username: {user.username}</p>
+      {/* Success message */}
+      {successMessage && <p style={{ color: 'green' }}>{successMessage}</p>}
+      {/* Error message */}
+      {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
       {/* Form for changing username */}
       <div>
         <input
