@@ -69,6 +69,14 @@ const resolvers = {
       }
       throw new AuthenticationError('You need to be logged in!');
     },
+    deleteUser: async (parent, args, context) => {
+      if (context.user) {
+        // Perform the deletion of the user from the database
+        const deletedUser = await User.findByIdAndDelete(context.user._id);
+        return deletedUser;
+      }
+      throw new AuthenticationError('You need to be logged in!');
+    },
   },
 };
 

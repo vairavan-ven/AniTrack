@@ -70,3 +70,13 @@ export const CHANGE_USERNAME = gql`
     }
   }
 `;
+
+// Delete user
+export const DELETE_USER = gql`
+  mutation {
+    deleteUser {
+      _id
+      username
+    }
+  }
+`;

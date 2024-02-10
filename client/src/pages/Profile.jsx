@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Navigate, useParams } from 'react-router-dom';
 import { useQuery, useMutation } from '@apollo/client';
 import { QUERY_ME } from '../utils/queries';
-import { CHANGE_USERNAME } from '../utils/mutations';
+import { CHANGE_USERNAME, DELETE_USER } from '../utils/mutations'; // Import the DELETE_USER mutation
 import Auth from '../utils/auth';
 
 const Profile = () => {
@@ -10,9 +10,11 @@ const Profile = () => {
   const { loading, data } = useQuery(QUERY_ME);
   const [newUsername, setNewUsername] = useState(''); // State to hold new username input
   const [changeUsername] = useMutation(CHANGE_USERNAME); // Mutation hook
+  const [deleteUser] = useMutation(DELETE_USER); // Mutation hook for deleting user
 
   const user = data?.me;
 
+  // Function to handle username change
   const handleChangeUsername = async () => {
     try {
       // Call the mutation function with the new username
@@ -20,6 +22,18 @@ const Profile = () => {
         variables: { newUsername },
       });
       // Optionally handle success, such as showing a success message or updating local state
+    } catch (error) {
+      // Handle error
+      console.error(error);
+    }
+  };
+
+  // Function to handle user deletion
+  const handleDeleteUser = async () => {
+    try {
+      // Call the mutation function to delete the user
+      await deleteUser();
+      // Optionally handle success, such as redirecting to another page
     } catch (error) {
       // Handle error
       console.error(error);
@@ -58,6 +72,10 @@ const Profile = () => {
           onChange={(e) => setNewUsername(e.target.value)}
         />
         <button onClick={handleChangeUsername}>Change Username</button>
+      </div>
+      {/* Button to delete the user account */}
+      <div>
+        <button onClick={handleDeleteUser}>Delete Account</button>
       </div>
     </div>
   );

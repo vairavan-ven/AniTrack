@@ -33,6 +33,7 @@ const typeDefs = gql`
         saveAnime(newAnime: InputAnime!): User
         removeAnime(animeId: ID!): User
         changeUsername(newUsername: String!): User
+        deleteUser: User
     }
 `;
 
