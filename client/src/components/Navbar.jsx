@@ -1,13 +1,20 @@
 import React, { useState } from 'react';
 import { Navbar, Nav, Container, Modal, Tab } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom'; // Import useNavigate hook
 import Auth from '../utils/auth';
 import SignUpForm from './SignupForm';
 import LoginForm from './LoginForm';
 
 const AppNavbar = () => {
+  const navigate = useNavigate(); // Initialize useNavigate hook
+
   // State to manage modal visibility
   const [showModal, setShowModal] = useState(false);
+
+  const handleLogout = () => {
+    Auth.logout(); // Logout the user
+    navigate('/'); // Redirect to the search page after logout using useNavigate
+  };
 
   return (
     <Navbar bg='dark' variant='dark' expand='lg'>
@@ -21,12 +28,15 @@ const AppNavbar = () => {
             <Nav.Link as={Link} to='/'>
               Search For Anime
             </Nav.Link>
+            <Nav.Link as={Link} to='/profile'> 
+              Profile
+            </Nav.Link>
             {Auth.loggedIn() ? (
               <>
                 <Nav.Link as={Link} to='/saved'>
                   See Your Anime
                 </Nav.Link>
-                <Nav.Link onClick={Auth.logout}>Logout</Nav.Link>
+                <Nav.Link onClick={handleLogout}>Logout</Nav.Link> {/* Updated onClick handler */}
               </>
             ) : (
               <>
