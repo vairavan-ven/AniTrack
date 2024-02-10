@@ -61,3 +61,12 @@ export const REMOVE_ANIME = gql`
     }
   }
 `;
+
+export const CHANGE_USERNAME = gql`
+  mutation changeUsername($newUsername: String!) {
+    changeUsername(newUsername: $newUsername) {
+      _id
+      username
+    }
+  }
+`;

@@ -58,6 +58,17 @@ const resolvers = {
       }
       throw new AuthenticationError('Login required!');
     },
+    changeUsername: async (parent, { newUsername }, context) => {
+      if (context.user) {
+        const updatedUser = await User.findByIdAndUpdate(
+          { _id: context.user._id },
+          { username: newUsername },
+          { new: true }
+        );
+        return updatedUser;
+      }
+      throw new AuthenticationError('You need to be logged in!');
+    },
   },
 };
 
