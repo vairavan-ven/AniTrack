@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Navigate, useParams } from 'react-router-dom';
 import { useQuery, useMutation } from '@apollo/client';
 import { QUERY_ME } from '../utils/queries';
-import { CHANGE_USERNAME, DELETE_USER } from '../utils/mutations'; // Import CHANGE_USERNAME and DELETE_USER mutation
+import { CHANGE_USERNAME, DELETE_USER } from '../utils/mutations';
 import Auth from '../utils/auth';
 
 const Profile = () => {
@@ -84,12 +84,23 @@ const Profile = () => {
           placeholder="Enter new username"
           value={newUsername}
           onChange={(e) => setNewUsername(e.target.value)}
+          style={{ marginRight: '10px', marginBottom: '10px' }}
         />
-        <button onClick={handleChangeUsername}>Change Username</button>
+        <button
+          onClick={handleChangeUsername}
+          style={{ padding: '5px 10px', backgroundColor: 'blue', color: 'white', border: 'none', cursor: 'pointer' }}
+        >
+          Change Username
+        </button>
       </div>
       {/* Button to delete the user account */}
       <div>
-        <button onClick={handleDeleteUser}>Delete Account</button>
+        <button
+          onClick={handleDeleteUser}
+          style={{ padding: '5px 10px', backgroundColor: 'red', color: 'white', border: 'none', cursor: 'pointer' }}
+        >
+          Delete Account
+        </button>
       </div>
     </div>
   );

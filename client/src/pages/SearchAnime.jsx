@@ -73,7 +73,7 @@ const SearchAnime = () => {
                   placeholder='Search for an anime'
                 />
               </Col>
-              <Col xs={12} md={4}>
+              <Col xs={12} md={4} className="d-flex align-items-center">
                 <Button onClick={handleSearch} variant='success' size='lg'>
                   Submit Search
                 </Button>
@@ -92,7 +92,7 @@ const SearchAnime = () => {
         <Row>
           {searchResults.map((anime) => (
             <Col md="4" key={anime.id}>
-              <Card border='dark'>
+              <Card border='dark' className="mb-4">
                 <Card.Body>
                   <Card.Title>{anime.title}</Card.Title>
                   <Card.Text>{anime.description}</Card.Text>
@@ -101,8 +101,8 @@ const SearchAnime = () => {
                     className='btn-block btn-info'
                     onClick={() => handleSaveAnime(anime)}>
                     {savedAnime.some(saved => saved.id === anime.id)
-                      ? 'This anime has already been saved!'
-                      : 'Save this Anime!'}
+                      ? 'Already Saved'
+                      : 'Save'}
                   </Button>
                 </Card.Body>
               </Card>

@@ -17,9 +17,9 @@ const AppNavbar = () => {
   };
 
   return (
-    <Navbar bg='dark' variant='dark' expand='lg'>
+    <Navbar style={{ backgroundColor: '#4527A0' }} variant='dark' expand='lg'>
       <Container fluid>
-        <Navbar.Brand as={Link} to='/'>
+        <Navbar.Brand as={Link} to='/' style={{ fontFamily: 'Bubblegum Sans', fontSize: '24px' }}>
           AniTrack: MERN Anime Tracker
         </Navbar.Brand>
         <Navbar.Toggle aria-controls='navbar' />
