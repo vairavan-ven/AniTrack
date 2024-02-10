@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Col, Form, Button, Card, Row } from 'react-bootstrap';
 import seedData from '../utils/seedData';
+import Auth from '../utils/auth'; // Import Auth utility
 
 const SearchAnime = () => {
   const [searchInput, setSearchInput] = useState('');
@@ -37,15 +38,21 @@ const SearchAnime = () => {
   };
 
   const handleSaveAnime = (anime) => {
-    // Check if the anime is already saved
-    if (!savedAnime.some(saved => saved.id === anime.id)) {
-      // Add animeId property to the anime object
-      anime.animeId = anime.id;
-      // Save anime to local storage
-      const updatedAnime = [...savedAnime, anime];
-      setSavedAnime(updatedAnime);
-      // Update local storage
-      saveAnimeToLocalStorage(updatedAnime);
+    // Check if the user is logged in
+    if (Auth.loggedIn()) {
+      // Check if the anime is already saved
+      if (!savedAnime.some(saved => saved.id === anime.id)) {
+        // Add animeId property to the anime object
+        anime.animeId = anime.id;
+        // Save anime to local storage
+        const updatedAnime = [...savedAnime, anime];
+        setSavedAnime(updatedAnime);
+        // Update local storage
+        saveAnimeToLocalStorage(updatedAnime);
+      }
+    } else {
+      // Redirect to login if user is not logged in
+      window.location.href = '/login';
     }
   };
 
