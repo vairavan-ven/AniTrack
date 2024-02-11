@@ -12,7 +12,7 @@ AniTrack is a web application built using MERN technologies. This website can be
 - [Questions](#questions)
 
 ## Installation
-repo can be cloned or can be accessed from deployed link
+repo can be cloned or can be accessed from deployed link: https://powerful-escarpment-36215-b12952e42c2d.herokuapp.com/
 
 ## Usage
 Users can create an account to save any anime that they search to a watchlist to keep track of which animes they want to watch
