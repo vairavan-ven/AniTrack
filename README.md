@@ -11,11 +11,11 @@ SO THAT I can keep track of which animes I WANT to watch
 ```
 
 ## Technologies Used
-```md
+
 * HTML
 * CSS
 * Javascript
-*JSX
+* JSX
 * React
 * Mongodb and Mongoose
 * Apollo Client
@@ -26,7 +26,7 @@ SO THAT I can keep track of which animes I WANT to watch
 * Node.js
 * Local Storage
 * Heroku.
-```
+
 
 ## Table of Contents
 - [Installation](#installation)
